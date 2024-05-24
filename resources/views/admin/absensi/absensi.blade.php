@@ -35,7 +35,9 @@
                                     <thead>
                                         <tr>
                                             <th width="3%" class="text-center">No</th>
-                                            <th width="30%">NIP</th>
+                                            @if ($keterangan === 'guru')
+                                                <th width="30%">NIP</th>
+                                            @endif
                                             <th width="35%">Nama Pegawai</th>
                                             <th width="32%">Kehadiran</th>
                                         </tr>
@@ -49,7 +51,9 @@
                                             <tr>
                                                 <input type="hidden" name="pegawai[]" value="{{ $pegawai->id_pegawai }}">
                                                 <td class="text-center">{{ $index + 1 }}</td>
-                                                <td>{{ $pegawai->NIP }}</td>
+                                                @if ($keterangan === 'guru')
+                                                    <td>{{ $pegawai->NIP }}</td>
+                                                @endif
                                                 <td>{{ $pegawai->Nama }}</td>
                                                 <td>
                                                     @if ($sudahAbsen)

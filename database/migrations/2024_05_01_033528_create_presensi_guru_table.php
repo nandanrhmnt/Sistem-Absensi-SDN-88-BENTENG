@@ -20,8 +20,8 @@ class CreatePresensiGuruTable extends Migration
             $table->date('tanggal');
             $table->time('jam_masuk');
             $table->timestamps();
-            $table->foreign('id_pegawai')->references('id_pegawai')->on('tb_pegawai');
-            $table->foreign('id_kehadiran')->references('id_kehadiran')->on('kehadiran');
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('tb_pegawai')->onDelete('cascade');
+            $table->foreign('id_kehadiran')->references('id_kehadiran')->on('kehadiran')->onDelete('cascade');
 
         });
     }

@@ -46,6 +46,7 @@ Route::get('/','HomeController@index')->name("home.index");
     Route::post('/pegawai/','PegawaiController@create');
     Route::put('/pegawai/update/{id}', 'PegawaiController@update');
     Route::get('/pegawai/delete/{id}', 'PegawaiController@delete');
+    Route::delete('/pegawai/delete/{id_pegawai}', 'PegawaiController@delete');
     Route::post('/pegawai/search/', 'PegawaiController@search');
     
     Route::get('logout','AuthController@logout');

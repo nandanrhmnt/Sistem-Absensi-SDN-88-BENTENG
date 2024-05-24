@@ -18,7 +18,7 @@ class CreateKehadiranTable extends Migration
             $table->unsignedBigInteger('id_pegawai');
             $table->enum('kehadiran', ['Hadir', 'Sakit', 'Izin', 'Tanpa keterangan']);
             $table->timestamps();
-            $table->foreign('id_pegawai')->references('id_pegawai')->on('tb_pegawai');
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('tb_pegawai')->onDelete('cascade');
         });
     }
 
