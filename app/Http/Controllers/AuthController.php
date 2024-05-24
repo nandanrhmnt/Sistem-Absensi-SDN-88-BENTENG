@@ -10,55 +10,38 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthController extends Controller
 {
-    function showForm(){
+    function showForm()
+    {
 
         return view('auth/login');
     }
-    function lists(){
+    function lists()
+    {
         $resource = User::paginate(10);
-        return view('admin/akun', ['resource'=>$resource]);
+        return view('admin/akun', ['resource' => $resource]);
     }
-    function delete($id){
+    function delete($id)
+    {
         User::find($id)->delete();
         session()->flash('notif', array('success' => true, 'msgaction' => 'Hapus Data Berhasil!'));
         return redirect('/admin/akun');
     }
-    function login(Request $req){
-        if (Auth::attempt(['username' => $req['username'], 'password' => $req['password']], true)) {
-            return redirect('/');         
-        }   
+    function login(Request $req)
+    {
+        $credentials = $req->only('username', 'password');
+
+        if (Auth::attempt($credentials, true)) {
+            return redirect('/');
+        } else {
+            return redirect()->back()->withErrors(['loginError' => 'Tidak dapat memasukkan Anda. Silahkan periksa username dan password Anda.']);
+        }
     }
-    function logout(){
-        if(Auth::check()){
+
+    function logout()
+    {
+        if (Auth::check()) {
             Auth::logout();
         }
         return redirect('/');
-    }
-    // function daftar(){
-    //     $siswa = Siswa::get();
-    //     return view('auth/register',['siswa'=>$siswa]);
-    // }
-    public function prosesDaftar(Request $request){
-        $check = User::where(['username' => $request->username])->get();
-        if($check->count()>0){
-            session()->flash('notif', array('success' => false, 'msgaction' => 'Tambah Data Gagal, Username Telah Ada!'));
-            return redirect('/register');
-        }
-        else{
-            $Akun = new User;
-            $Akun->username = $request->username;
-            $Akun->akses = $request->akses;
-            if($request->akses=="Ortu"){
-                $Akun->id_siswa = $request->id_siswa;    
-            }
-            $Akun->password = bcrypt($request->password);
-            if($Akun->save()){
-                session()->flash('notif', array('success' => true, 'msgaction' => 'Tambah Data Berhasil!'));
-            }
-            else{
-                session()->flash('notif', array('success' => false, 'msgaction' => 'Tambah Data Gagal, Silahkan Ulangi!'));
-            }
-            return redirect('/admin/akun');
-        }
     }
 }

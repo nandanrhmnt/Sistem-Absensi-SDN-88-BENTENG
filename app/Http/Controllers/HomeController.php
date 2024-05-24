@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use index;
-use App\TbPegawai;
-use App\PresensiGuru;
 use App\Kehadiran;
+use App\TbPegawai;
+use Carbon\Carbon;
+use App\PresensiGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class HomeController extends Controller
@@ -19,7 +20,9 @@ class HomeController extends Controller
             if (Auth::user()->akses == "Siswa" || Auth::user()->akses == "Ortu") {
                 return redirect('u/dashboard');
             } else if (Auth::user()->akses == "Admin" || Auth::user()->akses == "Piket") {
-                return view('admin/dashboard');
+                $pegawai_count = TbPegawai::count();
+                $presensi_count = PresensiGuru::whereDate('created_at', Carbon::today())->count();
+                return view('admin/dashboard', compact('pegawai_count', 'presensi_count'));
             }
         } else {
             return view('layouts/home');
@@ -36,9 +39,9 @@ class HomeController extends Controller
 
         if ($validator->fails()) {
             return redirect('/')
-                        ->withErrors($validator)
-                        ->withInput()
-                        ->with('gagal', 'Validasi gagal. Silakan periksa input Anda.');
+                ->withErrors($validator)
+                ->withInput()
+                ->with('gagal', 'Validasi gagal. Silakan periksa input Anda.');
         }
 
         $tanggal = Carbon::now()->format('Y-m-d');
@@ -47,41 +50,27 @@ class HomeController extends Controller
         $cek = PresensiGuru::where([
             'id_pegawai' => $request->id_pegawai,
             'tanggal' => $tanggal
-            ])->first();
+        ])->first();
 
-            if ($cek) {
-                return redirect('/')->with('gagal', 'Hari ini Anda telah absen');
-            }
+        if ($cek) {
+            return redirect('/')->with('gagal', 'Hari ini Anda telah absen');
+        }
 
-            // Tambah ke tabel kehadiran
-            $kehadiran = Kehadiran::firstOrCreate([
-                'id_pegawai' => $request->id_pegawai,
-                'kehadiran' => 'Hadir'
-            ]);
+        // Tambah ke tabel kehadiran
+        $kehadiran = Kehadiran::firstOrCreate([
+            'id_pegawai' => $request->id_pegawai,
+            'kehadiran' => 'Hadir'
+        ]);
 
-            // Simpan data presensi
-            PresensiGuru::create([
-                'id_pegawai' => $request->id_pegawai,
-                'id_kehadiran' => $kehadiran->id_kehadiran,
-                'tanggal' => $tanggal,
-                'jam_masuk' => $request->jam_masuk
-            ]);
+        // Simpan data presensi
+        PresensiGuru::create([
+            'id_pegawai' => $request->id_pegawai,
+            'id_kehadiran' => $kehadiran->id_kehadiran,
+            'tanggal' => $tanggal,
+            'jam_masuk' => $request->jam_masuk
+        ]);
 
         return redirect('/')->with('success', 'Terimakasih, Data Tersimpan');
         // dd($request->all());
     }
 }
-    
-    // public function validasi(Request $request){
-        //     $qr     = $request->qr_code;
-        //     $data   = 'TEST QR CODE';
-        //     if($qr == $data){
-            //         return response()->json([
-                //             'status' => 200,
-                //         ]);
-                //     }else{
-                    //         return response()->json([
-                        //             'status' => 400,
-                        //         ]);
-                        //     }
-                        // }

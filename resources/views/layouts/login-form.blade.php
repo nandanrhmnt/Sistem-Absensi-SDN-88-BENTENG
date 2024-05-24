@@ -4,7 +4,7 @@
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Web Presensi | Absensi Jadi Lebih Mudah!</title>
+        <title>Web Absensi SDN 88 Bengkulu Tengah</title>
         <link rel="stylesheet" type="text/css" href="{!! asset('css/bootstrap.min.css') !!}">
         <link href="{!! asset('css/font-awesome.min.css') !!}" rel="stylesheet">
         <link href="{!! asset('css/styles.css') !!}" rel="stylesheet">

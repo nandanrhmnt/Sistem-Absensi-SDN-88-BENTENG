@@ -36,7 +36,14 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <form method="POST" action="login">
+                        <!-- Tampilkan pesan error jika ada -->
+                        @if ($errors->has('loginError'))
+                            <div class="alert alert-danger">
+                                <strong>{{ $errors->first('loginError') }}</strong>
+                            </div>
+                        @endif
+
+                        <form method="POST" action="{{ url('login') }}">
                             {{ csrf_field() }}
 
                             <div class="mb-3">
@@ -58,10 +65,8 @@
                                     </div>
                                 @endif
                             </div>
-
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Login</button>
-                                <!-- <a class="btn btn-link" href="#">Forgot Your Password?</a> -->
                             </div>
                         </form>
                     </div>
