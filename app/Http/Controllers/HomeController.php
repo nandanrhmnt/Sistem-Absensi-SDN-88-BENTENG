@@ -50,7 +50,7 @@ class HomeController extends Controller
             ])->first();
 
             if ($cek) {
-                return redirect('/')->with('gagal', 'Anda sudah absen');
+                return redirect('/')->with('gagal', 'Hari ini Anda telah absen');
             }
 
             // Tambah ke tabel kehadiran
@@ -67,7 +67,7 @@ class HomeController extends Controller
                 'jam_masuk' => $request->jam_masuk
             ]);
 
-        return redirect('/')->with('success', 'Silahkan masuk');
+        return redirect('/')->with('success', 'Terimakasih, Data Tersimpan');
         // dd($request->all());
     }
 }
