@@ -19,7 +19,7 @@ class GeneratelaporanController extends Controller
         $guru = TbPegawai::where('keterangan', 'guru')->get();
         $honorer = TbPegawai::where('keterangan', 'honorer')->get();
         
-        return view('admin.generatelaporan', compact('guru', 'honorer'));
+        return view('admin.laporan.generatelaporan', compact('guru', 'honorer'));
     }
     
     public function generateLaporanGuru(Request $request)
@@ -63,7 +63,7 @@ class GeneratelaporanController extends Controller
             'jumlahGuru' => $jumlahGuru,
         ];
         
-        return view('admin.generateLaporanGuru', $data);
+        return view('admin.laporan.generateLaporanGuru', $data);
     }
     
     public function generateLaporanHonorer(Request $request)
@@ -107,7 +107,7 @@ class GeneratelaporanController extends Controller
             'jumlahHonorer' => $jumlahHonorer,
         ];
         
-        return view('admin.generateLaporanHonorer', $data);
+        return view('admin.laporan.generateLaporanHonorer', $data);
     }
     
     private function convertMonthToIndonesian($month)

@@ -38,7 +38,6 @@ Route::get('/','HomeController@index')->name("home.index");
     
     Route::get('/absensi', 'AbsensiController@index'); // Menampilkan semua pegawai
     Route::get('/absensi/{keterangan}', 'AbsensiController@show');
-    Route::get('/absensi/generate-qr-all', 'AbsensiController@generateQRCodeForAll')->name('absensi.generate_qr_all');
     Route::post('/absensi', 'AbsensiController@create')->name('absensi.create');
     
     

@@ -13,7 +13,7 @@ class AbsensiController extends Controller
     public function index()
     {
         $pegawai = TbPegawai::paginate(10);
-        return view('absensi.listpegawai', compact('pegawai'));
+        return view('admin.absensi.listpegawai', compact('pegawai'));
     }
 
     public function show($keterangan)
@@ -27,7 +27,7 @@ class AbsensiController extends Controller
         // Mengambil data presensi untuk hari ini
         $presensiHariIni = PresensiGuru::whereDate('tanggal', $tanggal)->get()->pluck('id_pegawai');
 
-        return view('absensi.absensi', compact('pegawai', 'keterangan', 'presensiHariIni'));
+        return view('admin.absensi.absensi', compact('pegawai', 'keterangan', 'presensiHariIni'));
     }
     
     public function create(Request $request)
