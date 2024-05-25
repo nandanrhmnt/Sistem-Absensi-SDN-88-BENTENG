@@ -1,8 +1,5 @@
 @extends('layouts.master')
 @section('css')
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> --}}
-
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
 @endsection
@@ -21,18 +18,18 @@
         @if (session()->exists('notif'))
             @if (session()->get('notif')['success'])
                 {!! '<div class="alert alert-success alert-dismissable">
-                                                                                                                                                                                                                                                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                                                                                                                                                                                                                                                        <strong>Sukses! </strong>' .
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <strong>Sukses! </strong>' .
                     session()->get('notif')['msgaction'] .
                     '
-                                                                                                                                                                                                                                                                                    </div>' !!}
+                    </div>' !!}
             @else
                 {!! '<div class="alert alert-danger alert-dismissable">
-                                                                                                                                                                                                                                                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                                                                                                                                                                                                                                                                                        <strong>Gagal! </strong>' .
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        <strong>Gagal! </strong>' .
                     session()->get('notif')['msgaction'] .
                     '
-                                                                                                                                                                                                                                                                                    </div>' !!}
+                    </div>' !!}
             @endif
         @endif
         <div class="row">
@@ -49,12 +46,7 @@
                                     </p>
                                 </div>
                                 <table id="absensi" class="table table-bordred table-striped">
-
                                     <thead>
-                                        {{-- <tr>
-                                            <input type="text" name="search" class="form-control" placeholder="Cari...">
-                                        </tr> --}}
-
                                         <tr>
                                             <th width="3%" class="text-center">No</th>
                                             <th width="20%">NIP</th>
@@ -194,7 +186,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- Edit Modal -->
 
+                                                <!-- Delete Modal -->
                                                 <div class="modal fade" id="deleteModal{{ $res->id_pegawai }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="edit"
                                                     aria-hidden="true">
@@ -228,20 +222,15 @@
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                        <!-- /.modal-content -->
                                                     </div>
-                                                    <!-- /.modal-dialog -->
                                                 </div>
+                                                <!-- Delete Modal -->
+
                                             </tr>
                                         @endforeach
                                     </tbody>
-
                                 </table>
-
                             </div>
-                            {{-- <ul class="pagination pull-right">
-                                {!! $resource->render() !!}
-                            </ul> --}}
                         </div>
                     </div>
                 </div>
@@ -253,10 +242,6 @@
     </div>
 
     <!-- Modal CRUD Content -->
-
-    <!-- Edit Modal -->
-
-    <!--/Edit Modal -->
 
     <!-- Add Modal -->
     <div id="add" class="modal fade" role="dialog">
@@ -316,7 +301,6 @@
                         <button type="submit" class="btn btn-info btn-lg" style="width: 100%;"><span
                                 class="glyphicon glyphicon-plus"></span> Tambah Data</button>
                     </div>
-
                     {!! csrf_field() !!}
                 </form>
             </div>
@@ -334,10 +318,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"> --}}
-    </script>
-
     <script>
         $(document).ready(function() {
             new DataTable('#absensi', {

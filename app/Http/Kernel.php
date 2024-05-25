@@ -34,11 +34,13 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\PreventBackHistory::class,
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -60,5 +62,6 @@ class Kernel extends HttpKernel
         'siswa' => \App\Http\Middleware\IsStudent::class,
         'piket' => \App\Http\Middleware\IsPiketOrAdmin::class,
         'logged' => \App\Http\Middleware\IsLogged::class,
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }
