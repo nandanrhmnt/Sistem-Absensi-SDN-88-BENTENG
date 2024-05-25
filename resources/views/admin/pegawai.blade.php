@@ -1,4 +1,11 @@
 @extends('layouts.master')
+@section('css')
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> --}}
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+@endsection
 @section('title', 'Data Pegawai')
 @section('content')
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -14,18 +21,18 @@
         @if (session()->exists('notif'))
             @if (session()->get('notif')['success'])
                 {!! '<div class="alert alert-success alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <strong>Sukses! </strong>' .
+                                                                                                                                                                                                                                                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                                                                                                                                                                                                                                                                        <strong>Sukses! </strong>' .
                     session()->get('notif')['msgaction'] .
                     '
-                    </div>' !!}
+                                                                                                                                                                                                                                                                                    </div>' !!}
             @else
                 {!! '<div class="alert alert-danger alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <strong>Gagal! </strong>' .
+                                                                                                                                                                                                                                                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                                                                                                                                                                                                                                                                        <strong>Gagal! </strong>' .
                     session()->get('notif')['msgaction'] .
                     '
-                    </div>' !!}
+                                                                                                                                                                                                                                                                                    </div>' !!}
             @endif
         @endif
         <div class="row">
@@ -35,18 +42,19 @@
                     <div class="panel-body">
                         <div class="table-responsive">
                             <div class="table-responsive">
+                                <div class="panel-footer">
+                                    <p data-placement="top" data-toggle="tooltip" title="Add" class="pull-right">
+                                        <button class="btn btn-primary btn-sm" data-title="Add" data-toggle="modal"
+                                            data-target="#add"><span class="glyphicon glyphicon-plus"></span></button>
+                                    </p>
+                                </div>
                                 <table id="absensi" class="table table-bordred table-striped">
 
                                     <thead>
-                                        <tr>
+                                        {{-- <tr>
                                             <input type="text" name="search" class="form-control" placeholder="Cari...">
-                                        </tr>
-                                        <div class="panel-footer">
-                                            <p data-placement="top" data-toggle="tooltip" title="Add" class="pull-right">
-                                                <button class="btn btn-primary btn-sm" data-title="Add" data-toggle="modal"
-                                                    data-target="#add"><span
-                                                        class="glyphicon glyphicon-plus"></span></button></p>
-                                        </div>
+                                        </tr> --}}
+
                                         <tr>
                                             <th width="3%" class="text-center">No</th>
                                             <th width="20%">NIP</th>
@@ -55,136 +63,185 @@
                                             <th width="15%">Jenis Kelamin</th>
                                             <th width="20%">No Hp</th>
                                             <th width="10%">Keterangan</th>
-                                            <th width="10%" colspan="2" class="text-center">Aksi</th>
+                                            <th width="10%" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="isi">
                                         @foreach ($resource as $index => $res)
                                             <tr>
                                                 <td class="text-center">
-                                                    {{ ($resource->currentPage() - 1) * $resource->perPage() + $index + 1 }}
+                                                    {{ $index + 1 }}
                                                 </td>
                                                 <td>{{ $res->NIP ? $res->NIP : '-' }}</td>
                                                 <td>{{ $res->Nama }}</td>
                                                 <td>{!! QrCode::size(50)->generate($res->id_pegawai) !!}</td>
-                                                <td>{{ $res->jenis_kelamin == 'L' ? 'Laki-Laki' : 'Perempuan' }}</td>
+                                                <td>{{ $res->jenis_kelamin == 'Laki-laki' ? 'Laki-Laki' : 'Perempuan' }}
+                                                </td>
                                                 <td>{{ $res->No_hp }}</td>
                                                 <td>{{ $res->keterangan }}</td>
                                                 <td class="text-center">
-                                                    <button data-aksi="pegawai" data-id="{{ $res->id_pegawai }}"
-                                                        data-nama="{{ $res->Nama }}" data-no_hp="{{ $res->No_hp }}"
-                                                        data-jk="{{ $res->jenis_kelamin }}" data-nip="{{ $res->NIP }}"
-                                                        data-keterangan="{{ $res->keterangan }}"
-                                                        class="edit-button btn btn-primary btn-xs" data-toggle="modal"
-                                                        data-target="#editModal{{ $res->id_pegawai }}">
-                                                        <span class="glyphicon glyphicon-pencil"></span>
-                                                    </button>
-                                                </td>
-                                                <td class="text-center">
-                                                    <form action="/pegawai/delete/{{ $res->id_pegawai }}" method="post" onsubmit="return confirm('Yakin data akan dihapus?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-xs" title="Delete">
+                                                    <div class="d-flex">
+                                                        <button data-toggle="modal"
+                                                            class="edit-button btn btn-primary btn-xs"
+                                                            data-target="#editModal{{ $res->id_pegawai }}">
+                                                            <span class="glyphicon glyphicon-pencil"></span>
+                                                        </button>
+                                                        <button class="delete-button btn btn-danger btn-xs"
+                                                            data-toggle="modal"
+                                                            data-target="#deleteModal{{ $res->id_pegawai }}">
                                                             <span class="glyphicon glyphicon-trash"></span>
                                                         </button>
-                                                    </form>
-                                                </td>                                                
-                                            </tr>
+                                                    </div>
+                                                </td>
 
-                                            <!-- Edit Modal -->
-                                            <div id="editModal{{ $res->id_pegawai }}" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Edit Pegawai</h4>
-                                                        </div>
-                                                        <form action="/pegawai/update/{{ $res->id_pegawai }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id_pegawai"
-                                                                value="{{ $res->id_pegawai }}">
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <div class="form-group">
-                                                                            <label for="nip">NIP</label>
-                                                                            <input type="number" name="NIP"
-                                                                                class="form-control"
-                                                                                id="nip{{ $res->id_pegawai }}"
-                                                                                placeholder="NIP">
+                                                <!-- Edit Modal -->
+                                                <div id="editModal{{ $res->id_pegawai }}" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Edit Pegawai</h4>
+                                                            </div>
+                                                            <form action="/pegawai/update/{{ $res->id_pegawai }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <input type="hidden" name="id_pegawai"
+                                                                    value="{{ $res->id_pegawai }}">
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6">
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="nip{{ $res->id_pegawai }}">NIP</label>
+                                                                                <input type="number" name="NIP"
+                                                                                    class="form-control"
+                                                                                    id="nip{{ $res->id_pegawai }}"
+                                                                                    value="{{ $res->NIP }}"
+                                                                                    placeholder="NIP">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <div class="form-group">
-                                                                            <label for="nama">Nama</label>
-                                                                            <input type="text" name="nama"
-                                                                                class="form-control"
-                                                                                id="nama{{ $res->id_pegawai }}"
-                                                                                placeholder="Nama">
+                                                                        <div class="col-lg-6">
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="nama{{ $res->id_pegawai }}">Nama</label>
+                                                                                <input type="text" name="nama"
+                                                                                    class="form-control"
+                                                                                    id="nama{{ $res->id_pegawai }}"
+                                                                                    value="{{ $res->Nama }}"
+                                                                                    placeholder="Nama">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-group">
-                                                                            <label for="jk">Jenis Kelamin</label>
-                                                                            <select class="form-control"
-                                                                                id="jk{{ $res->id_pegawai }}"
-                                                                                name="jk">
-                                                                                <option selected disabled>--Pilih Jenis
-                                                                                    Kelamin--</option>
-                                                                                <option value="Laki-Laki">Laki-Laki</option>
-                                                                                <option value="Perempuan">Perempuan
-                                                                                </option>
-                                                                            </select>
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group">
+                                                                                <label for="jk{{ $res->id_pegawai }}">Jenis
+                                                                                    Kelamin</label>
+                                                                                <select class="form-control"
+                                                                                    id="jk{{ $res->id_pegawai }}"
+                                                                                    name="jk">
+                                                                                    <option disabled>--Pilih Jenis
+                                                                                        Kelamin--</option>
+                                                                                    <option value="Laki-Laki"
+                                                                                        {{ $res->jenis_kelamin == 'Laki-Laki' ? 'selected' : '' }}>
+                                                                                        Laki-Laki</option>
+                                                                                    <option value="Perempuan"
+                                                                                        {{ $res->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                                                                                        Perempuan</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-group">
-                                                                            <label class="control-label">No Hp</label>
-                                                                            <input type="number" name="no_hp"
-                                                                                class="form-control"
-                                                                                id="no_hp{{ $res->id_pegawai }}"
-                                                                                placeholder="No Hp">
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group">
+                                                                                <label for="no_hp{{ $res->id_pegawai }}"
+                                                                                    class="control-label">No Hp</label>
+                                                                                <input type="number" name="no_hp"
+                                                                                    class="form-control"
+                                                                                    id="no_hp{{ $res->id_pegawai }}"
+                                                                                    placeholder="No Hp"
+                                                                                    value="{{ $res->No_hp }}">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-group">
-                                                                            <label for="keterangan">Keterangan</label>
-                                                                            <select class="form-control"
-                                                                                id="keterangan{{ $res->id_pegawai }}"
-                                                                                name="keterangan">
-                                                                                <option selected disabled>--Pilih
-                                                                                    Keterangan--</option>
-                                                                                <option value="Guru">Guru</option>
-                                                                                <option value="Honorer">Honorer</option>
-                                                                            </select>
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group">
+                                                                                <label for="keterangan">Keterangan</label>
+                                                                                <select class="form-control"
+                                                                                    id="keterangan{{ $res->id_pegawai }}"
+                                                                                    name="keterangan">
+                                                                                    <option disabled>--Pilih
+                                                                                        Keterangan--</option>
+                                                                                    <option value="Guru"
+                                                                                        {{ $res->keterangan == 'Guru' ? 'selected' : '' }}>
+                                                                                        Guru</option>
+                                                                                    <option value="Honorer"
+                                                                                        {{ $res->keterangan == 'honorer' ? 'selected' : '' }}>
+                                                                                        Honorer</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-info btn-lg"
-                                                                    style="width: 100%;">
-                                                                    <span class="glyphicon glyphicon-edit"></span> Update
-                                                                    Data
-                                                                </button>
-                                                            </div>
-                                                        </form>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-info btn-lg"
+                                                                        style="width: 100%;">
+                                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                                        Update
+                                                                        Data
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+
+                                                <div class="modal fade" id="deleteModal{{ $res->id_pegawai }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="edit"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form method="post"
+                                                                action="/pegawai/delete/{{ $res->id_pegawai }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-hidden="true"><span
+                                                                            class="glyphicon glyphicon-remove"
+                                                                            aria-hidden="true"></span></button>
+                                                                    <h4 class="modal-title custom_align" id="Heading">
+                                                                        Delete
+                                                                        this entry</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="alert alert-danger"><span
+                                                                            class="glyphicon glyphicon-warning-sign"></span>
+                                                                        Are you
+                                                                        sure to delete this data?</div>
+                                                                </div>
+                                                                <div class="modal-footer ">
+                                                                    <button type="submit" class="btn btn-success"><span
+                                                                            class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                                                                    <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal"><span
+                                                                            class="glyphicon glyphicon-remove"></span> No</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <!-- /.modal-content -->
+                                                    </div>
+                                                    <!-- /.modal-dialog -->
+                                                </div>
+                                            </tr>
                                         @endforeach
                                     </tbody>
 
                                 </table>
 
                             </div>
-                            <ul class="pagination pull-right">
+                            {{-- <ul class="pagination pull-right">
                                 {!! $resource->render() !!}
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>
@@ -210,7 +267,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Tambah Data</h4>
                 </div>
-                <form action="/pegawai/" method="post">
+                <form action="/pegawai" method="post">
+                    @method('POST')
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-6">
@@ -258,6 +316,7 @@
                         <button type="submit" class="btn btn-info btn-lg" style="width: 100%;"><span
                                 class="glyphicon glyphicon-plus"></span> Tambah Data</button>
                     </div>
+
                     {!! csrf_field() !!}
                 </form>
             </div>
@@ -265,81 +324,29 @@
     </div>
     <!--/add Modal -->
 
-    <!-- Delete modal -->
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="delete-form" method="post" action="">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you
-                            sure to delete this data?</div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success"><span
-                                class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
-                                class="glyphicon glyphicon-remove"></span> No</button>
-                    </div>
-                    {!! csrf_field() !!}
-                    {{ method_field('DELETE') }}
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!--/Delete modal -->
-
 @endsection
 @section('js')
-    <script>
-        $('input[name="search"]').keyup(function() {
-            $.ajax({
-                type: 'POST',
-                data: {
-                    key: $(this).val(),
-                    _method: 'POST',
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '/pegawai/search/',
-                success: function(html) {
-                    $('#isi').html(html)
-                }
-            });
-        })
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"> --}}
     </script>
 
     <script>
         $(document).ready(function() {
-            $('.edit-button').on('click', function() {
-                var id = $(this).data('id');
-                var nip = $(this).data('nip');
-                var nama = $(this).data('nama');
-                var jk = $(this).data('jk');
-                var no_hp = $(this).data('no_hp');
-                var keterangan = $(this).data('keterangan');
-
-                $('#editModal' + id + ' #nip' + id).val(nip);
-                $('#editModal' + id + ' #nama' + id).val(nama);
-                $('#editModal' + id + ' #jk' + id).val(jk);
-                $('#editModal' + id + ' #no_hp' + id).val(no_hp);
-                $('#editModal' + id + ' #keterangan' + id).val(keterangan);
-
-                $('#delete').on('show.bs.modal', function(event) {
-                    var button = $(event.relatedTarget);
-                    var url = button.data('url');
-                    var modal = $(this);
-                    modal.find('form').attr('action', url);
-                });
+            new DataTable('#absensi', {
+                layout: {
+                    topStart: {
+                        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                    }
+                }
             });
         });
     </script>
-
 @endsection

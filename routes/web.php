@@ -25,7 +25,7 @@ Route::get('/','HomeController@index')->name("home.index");
             return view('admin/dashboard');
         });
         Route::get('akun','AuthController@lists')->middleware('admin');
-        Route::get('all','PegawaiController@all')->middleware('admin');
+        // Route::get('all','PegawaiController@all')->middleware('admin');
     
         Route::get('generatelaporan', [GeneratelaporanController::class, 'show'])->name('admin.show');
         Route::post('generateLaporanGuru', [GeneratelaporanController::class, 'generateLaporanGuru'])->name('admin.generateLaporanGuru');
@@ -45,7 +45,7 @@ Route::get('/','HomeController@index')->name("home.index");
     Route::get('/pegawai/{id}', 'PegawaiController@show');
     Route::post('/pegawai/','PegawaiController@create');
     Route::put('/pegawai/update/{id}', 'PegawaiController@update');
-    Route::get('/pegawai/delete/{id}', 'PegawaiController@delete');
+    // Route::get('/pegawai/delete/{id}', 'PegawaiController@delete');
     Route::delete('/pegawai/delete/{id_pegawai}', 'PegawaiController@delete');
     Route::post('/pegawai/search/', 'PegawaiController@search');
     

@@ -19,7 +19,6 @@ return array(
     'App\\Http\\Controllers\\GenerateqrcodeController' => $baseDir . '/app/Http/Controllers/GenerateqrcodeController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\PegawaiController' => $baseDir . '/app/Http/Controllers/PegawaiController.php',
-    'App\\Http\\Controllers\\RekapController' => $baseDir . '/app/Http/Controllers/RekapController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
     'App\\Http\\Middleware\\IsAdmin' => $baseDir . '/app/Http/Middleware/IsAdmin.php',

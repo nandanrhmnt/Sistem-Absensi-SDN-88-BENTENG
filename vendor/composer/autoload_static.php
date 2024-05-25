@@ -487,7 +487,6 @@ class ComposerStaticInit1ed7065430b232b7d074c77e6d1e55ab
         'App\\Http\\Controllers\\GenerateqrcodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/GenerateqrcodeController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\PegawaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/PegawaiController.php',
-        'App\\Http\\Controllers\\RekapController' => __DIR__ . '/../..' . '/app/Http/Controllers/RekapController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\IsAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/IsAdmin.php',

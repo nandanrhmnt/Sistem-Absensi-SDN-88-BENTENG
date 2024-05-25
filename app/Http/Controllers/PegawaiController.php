@@ -8,27 +8,28 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PegawaiController extends Controller
 {
-    public function all()
+    public function index()
     {
-        $resource = TbPegawai::paginate(10);
+        $resource = TbPegawai::all();
         return view('admin.pegawai', ['resource' => $resource]);
     }
 
     public function create(Request $request)
     {
+        // dd($request->all());
         // Periksa apakah keterangan pegawai adalah "honorer"
         $isHonorer = strtolower($request->keterangan) === 'honorer';
 
         // Periksa apakah NIP kosong
         if ($isHonorer && $request->nip) {
             session()->flash('notif', ['success' => false, 'msgaction' => 'Tambah Data Gagal, NIP Harus Kosong untuk Keterangan Honorer!']);
-            return redirect('/admin/all');
+            return redirect('/pegawai');
         }
 
         // Periksa apakah keterangan pegawai adalah "guru" dan NIP kosong
         if (!$isHonorer && empty($request->nip)) {
             session()->flash('notif', ['success' => false, 'msgaction' => 'Tambah Data Gagal, NIP Tidak Boleh Kosong untuk Keterangan Guru!']);
-            return redirect('/admin/all');
+            return redirect('/pegawai');
         }
 
         // Buat instance baru dari TbPegawai
@@ -46,7 +47,7 @@ class PegawaiController extends Controller
             session()->flash('notif', ['success' => false, 'msgaction' => 'Tambah Data Gagal, Silahkan Ulangi!']);
         }
 
-        return redirect('/admin/all');
+        return redirect('/pegawai');
     }
 
     public function update(Request $request, $id)
@@ -57,7 +58,7 @@ class PegawaiController extends Controller
         // Jika pegawai tidak ditemukan, tambahkan pesan kesalahan dan kembalikan ke halaman sebelumnya
         if (!$pegawai) {
             session()->flash('notif', array('success' => false, 'msgaction' => 'Pegawai tidak ditemukan!'));
-            return redirect('/admin/all');
+            return redirect('/pegawai');
         }
 
         // Cek apakah keterangan adalah "honorer"
@@ -66,13 +67,13 @@ class PegawaiController extends Controller
         // Jika keterangan adalah "honorer" dan NIP tidak kosong, tambahkan pesan kesalahan
         if ($isHonorer && $request->NIP) {
             session()->flash('notif', array('success' => false, 'msgaction' => 'Edit Data Gagal, NIP Harus Kosong untuk Keterangan Honorer!'));
-            return redirect('/admin/all');
+            return redirect('/pegawai');
         }
 
         // Jika keterangan adalah "guru" dan NIP kosong, tambahkan pesan kesalahan
         if (!$isHonorer && !$request->NIP) {
             session()->flash('notif', array('success' => false, 'msgaction' => 'Edit Data Gagal, NIP Tidak Boleh Kosong untuk Keterangan Guru!'));
-            return redirect('/admin/all');
+            return redirect('/pegawai');
         }
 
         // Update data pegawai
@@ -89,20 +90,22 @@ class PegawaiController extends Controller
             session()->flash('notif', array('success' => false, 'msgaction' => 'Edit Data Gagal, Silahkan Ulangi!'));
         }
 
-        return redirect('/admin/all');
+        return redirect('/pegawai');
     }
 
     public function delete($id_pegawai)
     {
         TbPegawai::find($id_pegawai)->delete();
         session()->flash('notif', array('success' => true, 'msgaction' => 'Hapus Data Berhasil!'));
-        return redirect('/admin/all');
+        return redirect('/pegawai');
     }
+
     public function show($id_pegawai)
     {
         $resource = TbPegawai::find($id_pegawai);
         return view('Admin/pegawai', ['resource' => $resource]);
     }
+
     public function search(Request $request)
     {
         $key = $request->key;

@@ -12,6 +12,7 @@
     <link href="{!! asset('css/daterangepicker.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/select2.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/select2-bootstrap.css') !!}" rel="stylesheet">
+        @yield('css')
     <style>
         .navbar-custom {
             background-color: #0d6efd;
@@ -60,7 +61,7 @@
                 <li><a href="/"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
                 <li><a href="{{ url('/absensi/') }}"><em class="fa fa-calendar">&nbsp;</em> Presensi</a></li>
             @if(Auth::user()->akses=="Admin")
-                <li><a href="{{ url('/admin/all') }}"><em class="fa fa-cogs">&nbsp;</em> Manajemen Data <span class="label label-info">{{ App\TbPegawai::all()->count() }}</span></a></li>
+                <li><a href="{{ url('/pegawai') }}"><em class="fa fa-cogs">&nbsp;</em> Manajemen Data <span class="label label-info">{{ App\TbPegawai::all()->count() }}</span></a></li>
             @endif
                 <li><a href="/admin/generate-qrcode"><em class="fa fa-qrcode">&nbsp;</em> Generate QR Code</a></li>
                 <li><a href="{{ route('admin.show') }}"><em class="fa fa-print">&nbsp;</em> Generate Laporan</a></li>
