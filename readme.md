@@ -7,7 +7,7 @@ Absensi Pegawai adalah aplikasi mengenai absen pegawai yang terdapat fitur rekap
 ## Tutorial
 <ol>
     <li>Buat database bernama "laravel_absensi"</li>
-    <li>Import database dari folder "mysql_db", terdapat file bernama "laravel_absensi"</li>
+    <li>Import database dari folder "mysql_db", terdapat file bernama "absensi_sdn88"</li>
     <li>Konfigurasi ".env"</li>
 </ol>
 
