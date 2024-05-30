@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 25, 2024 at 02:54 PM
+-- Generation Time: May 30, 2024 at 02:33 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -146,7 +146,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `akses`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', '$2y$10$ypcN9nJwuuRbNZH3WE9H/e0klWf3h5oKMJ8Zniag.d/.5YPIrwkrm', 'Admin', 'by2VZPNFXPGuzKhF9wnLwQNukCBOWMXjJR0ZJhtBUeReaTKjVeyArgTzTneF', NULL, NULL);
+(1, 'admin', 'admin@gmail.com', '$2y$10$ypcN9nJwuuRbNZH3WE9H/e0klWf3h5oKMJ8Zniag.d/.5YPIrwkrm', 'Admin', 'Izgn9NqWpo0ROkFeQeltEUtco8RudJ0A99nRCZvI5AJ6pQxpZFKVQTZU05Co', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -200,7 +200,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `kehadiran`
 --
 ALTER TABLE `kehadiran`
-  MODIFY `id_kehadiran` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_kehadiran` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -212,7 +212,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `presensi_guru`
 --
 ALTER TABLE `presensi_guru`
-  MODIFY `id_presensi` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_presensi` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tb_pegawai`

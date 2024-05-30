@@ -8,18 +8,25 @@ use Illuminate\Support\Facades\Auth;
 class PreventBackHistory
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+    * Handle an incoming request.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \Closure  $next
+    * @return mixed
+    */
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-
-        return $response->header('Cache-Control', 'nocache, no-store, max-age=0, must-revalidate')
-                        ->header('Pragma', 'no-cache')
-                        ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
+        $headers = [
+            'Cache-Control' => 'nocache, no-store, max-age=0, must-revalidate',
+            'Pragma','no-cache',
+            'Expires','Fri, 01 Jan 1990 00:00:00 GMT',
+        ];
+        
+        foreach($headers as $key => $value) {
+            $response->headers->set($key, $value);
+        }
+        
+        return $response;
     }
 }
